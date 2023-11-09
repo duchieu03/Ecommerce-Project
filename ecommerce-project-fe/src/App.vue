@@ -20,6 +20,7 @@
       return{
         categories: null,
         products: null,
+        token:null
       }
     },
     methods:{
@@ -36,7 +37,8 @@
               this.products = res.data.data;
             })
             .catch(err => console.log(err));
-      }
+      },
+
     },
 
     created() {

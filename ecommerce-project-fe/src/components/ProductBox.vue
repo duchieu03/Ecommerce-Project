@@ -17,13 +17,43 @@
            <router-link v-if="this.$route.name == 'listProduct'" :to="{name: 'editProduct', params: { id: product.id }}">
             <button class="btn btn-primary btn-lg">Edit</button>
            </router-link>
+           <button @click="removeWishlist" v-if="this.$route.name == 'wishlist'" class="btn btn-primary btn-lg">Remove</button>
         </div>
     </div>
 </template>
 <script>
+    import axios from 'axios';
+    import swal from 'sweetalert';
     export default {
         name: "ProductBox",
-        props: ["product"]
+        props: ["product"],
+        methods:{
+            async removeWishlist(){
+                const token = localStorage.getItem("token")
+                
+                await axios.request(
+                    {
+                        headers:{
+                            Authorization: `Bearer ${token}`
+                        },
+                        method:"POST",
+                        url:`http://localhost:8082/wishlist/delete/${this.product.id}`,
+                    },
+                ).then(()=>{
+                    swal({
+                        text:"Add successfully",
+                        icon:"success"
+                    })
+                }).catch((err)=>{
+                    swal({
+                        text:err.response.data.reason,
+                        icon:"error"
+                    })
+                    console.log(err)
+                })
+                this.$emit("removeWishlist")
+            }
+        }
     }
 </script>
 <style scoped>

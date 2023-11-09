@@ -16,7 +16,7 @@ import swal from 'sweetalert';
                     text:'Reset successfully',
                     icon:'success'
                 })
-            //    this.$router.push({name:'login'})
+                this.$router.push({name:'login'})
             })
             .catch((err)=>{
                 swal({
@@ -24,7 +24,7 @@ import swal from 'sweetalert';
                     icon:'error'
                 })
                 console.log(err);
-                //this.$router.push({name:'login'})
+                this.$router.push({name:'login'})
             })
         }
     }

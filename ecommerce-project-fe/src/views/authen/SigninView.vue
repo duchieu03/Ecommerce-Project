@@ -44,6 +44,7 @@ import swal from 'sweetalert';
                       icon:'success'
                     })
                     localStorage.setItem("token",res.data.data)
+                    this.$router.push({name:'home'})
                 })
                 .catch((err)=>{
                   swal({

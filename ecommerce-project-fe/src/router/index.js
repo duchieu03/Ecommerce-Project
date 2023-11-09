@@ -13,6 +13,7 @@ import SignupView from '../views/authen/SignupView.vue'
 import VerifyEmail from '../views/authen/VerifyEmail.vue'
 import ResetPassword from '../views/authen/ResetPassword.vue'
 import VerifyResetPassword from '../views/authen/VerifyResetPassword.vue'
+import WishlistView from '../views/wishlist/WishlistView.vue'
 
 const routes = [
   {
@@ -94,6 +95,11 @@ const routes = [
     path: '/auth/reset/verify',
     name: 'verifyReset',
     component: VerifyResetPassword
+  },
+  {
+    path: '/wishlist',
+    name: 'wishlist',
+    component: WishlistView
   }
 ]
 

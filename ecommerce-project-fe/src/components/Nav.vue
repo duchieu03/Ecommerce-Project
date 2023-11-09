@@ -87,7 +87,12 @@
     name: "NavbarComponent",
     data(){
       return {
-        token :null
+        token : localStorage.getItem("token")
+      }
+    },
+    watch:{
+      '$route' : function(){
+        this.token = localStorage.getItem("token")
       }
     },
     methods:{
@@ -96,7 +101,6 @@
       }
     },
     mounted(){
-      this.token = localStorage.getItem("token")
     }
   };
   </script>

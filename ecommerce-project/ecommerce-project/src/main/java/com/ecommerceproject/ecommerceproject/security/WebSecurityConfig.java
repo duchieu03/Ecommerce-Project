@@ -18,10 +18,13 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.addFilterBefore(jwtFilter, AuthorizationFilter.class);
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
 //                        .requestMatchers("/product/**").hasAuthority("ADMIN")
-//                        .requestMatchers("/category/**").hasAuthority("CUSTOMER")
-                        .anyRequest().permitAll());
+ //                       .requestMatchers("/wishlist/**").hasAuthority("CUSTOMER")
+                        .anyRequest().permitAll())
+
+        ;
         return httpSecurity.build();
     }
 }
