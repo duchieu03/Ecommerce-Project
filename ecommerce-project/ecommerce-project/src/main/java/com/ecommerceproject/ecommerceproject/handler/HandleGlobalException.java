@@ -47,7 +47,7 @@ public class HandleGlobalException {
 
     @ExceptionHandler(UserNotVerifiedException.class)
     public ResponseEntity<ResponseDTO> handleProductNotFound(UserNotVerifiedException arg){
-        ResponseDTO responseDTO= new ResponseDTO(HttpStatus.BAD_REQUEST.value(),null,"User is not verify and token is resend");
+        ResponseDTO responseDTO= new ResponseDTO(HttpStatus.BAD_REQUEST.value(),null,"User is not verify");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDTO);
     }
 

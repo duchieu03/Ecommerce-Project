@@ -1,6 +1,7 @@
 package com.ecommerceproject.ecommerceproject.controller;
 
 import com.ecommerceproject.ecommerceproject.dto.LoginDTO;
+import com.ecommerceproject.ecommerceproject.dto.ResetPasswordDTO;
 import com.ecommerceproject.ecommerceproject.dto.ResponseDTO;
 import com.ecommerceproject.ecommerceproject.dto.SignUpDTO;
 import com.ecommerceproject.ecommerceproject.exception.ExpiredTokenException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin
 public class AuthController {
     @Autowired
     private IUserService userService;
@@ -36,8 +38,8 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDTO);
     }
 
-    @Transactional
-    @PostMapping("/verify")
+
+    @PostMapping("/signup/verify")
     public ResponseEntity<?> verifyRegister(@RequestParam String token) throws ExpiredTokenException {
         if(userService.verifyToken(token)){
             ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK.value(), null,"Verify successfully");
@@ -46,4 +48,24 @@ public class AuthController {
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.BAD_REQUEST.value(), null,"Verify fail");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDTO);
     }
+
+    @PostMapping("/reset")
+    public ResponseEntity<?> resetPassword(@RequestBody @Valid ResetPasswordDTO email){
+        System.out.println(email);
+        userService.resetPassword(email.getEmail());
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK.value(), null,"Send verify successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+    }
+
+
+    @PostMapping("/reset/verify")
+    public ResponseEntity<?> verifyResetPassword(@RequestParam String token) throws ExpiredTokenException {
+        if(userService.verifyResetToken(token)){
+            ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK.value(), null,"Reset password successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+        }
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.BAD_REQUEST.value(), null,"Verify fail");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDTO);
+    }
 }
+

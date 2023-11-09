@@ -19,8 +19,8 @@ public class WebSecurityConfig {
         httpSecurity.addFilterBefore(jwtFilter, AuthorizationFilter.class);
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/product/**").hasAuthority("ADMIN")
-                        .requestMatchers("/category/**").hasAuthority("CUSTOMER")
+//                        .requestMatchers("/product/**").hasAuthority("ADMIN")
+//                        .requestMatchers("/category/**").hasAuthority("CUSTOMER")
                         .anyRequest().permitAll());
         return httpSecurity.build();
     }

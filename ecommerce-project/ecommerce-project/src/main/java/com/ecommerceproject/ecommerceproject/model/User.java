@@ -37,6 +37,6 @@ public class User{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Wishlist> wishlists = new ArrayList<>();
     @JsonIgnore
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,orphanRemoval = true)
     private List<VerificationToken> verificationTokens = new ArrayList<>();
 }

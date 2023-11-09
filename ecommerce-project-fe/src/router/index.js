@@ -8,6 +8,12 @@ import ProductList from '../views/product/ProductList.vue'
 import AddProduct from '../views/product/AddProduct.vue'
 import EditProduct from '../views/product/EditProduct.vue'
 import ProductDetail from '../views/product/ProductDetail.vue'
+import SigninView from '../views/authen/SigninView.vue'
+import SignupView from '../views/authen/SignupView.vue'
+import VerifyEmail from '../views/authen/VerifyEmail.vue'
+import ResetPassword from '../views/authen/ResetPassword.vue'
+import VerifyResetPassword from '../views/authen/VerifyResetPassword.vue'
+
 const routes = [
   {
     path: '/',
@@ -63,6 +69,32 @@ const routes = [
     component: ProductDetail
   }
   ,
+  {
+    path: '/auth/signin',
+    name: 'login',
+    component: SigninView
+  }
+  ,
+  {
+    path: '/auth/signup',
+    name: 'register',
+    component: SignupView
+  },
+  {
+    path: '/auth/signup/verify',
+    name: 'verify',
+    component: VerifyEmail
+  },
+  {
+    path: '/auth/reset',
+    name: 'reset',
+    component: ResetPassword
+  },
+  {
+    path: '/auth/reset/verify',
+    name: 'verifyReset',
+    component: VerifyResetPassword
+  }
 ]
 
 

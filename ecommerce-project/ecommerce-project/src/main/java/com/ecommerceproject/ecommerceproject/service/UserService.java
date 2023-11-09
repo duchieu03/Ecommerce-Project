@@ -35,6 +35,7 @@ public class UserService implements IUserService{
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
     @Override
+
     public void addUser(SignUpDTO user) {
         Optional<User> userOptional= userRepository.findByEmail(user.getEmail());
         if(userOptional.isPresent()) throw new EmailExistedException();
@@ -70,8 +71,8 @@ public class UserService implements IUserService{
                        VerificationToken verificationToken = createVerifiedToken(user);
                        emailService.sendVerifyToken(verificationToken);
                        verificationTokenRepository.save(verificationToken);
-                       throw new UserNotVerifiedException();
                    }
+                    throw new UserNotVerifiedException();
                 }
             }
         }
@@ -80,6 +81,7 @@ public class UserService implements IUserService{
 
 
     @Override
+    @Transactional
     public boolean verifyToken(String token) throws ExpiredTokenException {
         Optional<VerificationToken> verificationTokenOptional =
                 verificationTokenRepository.findByToken(token);
@@ -95,11 +97,11 @@ public class UserService implements IUserService{
                 verificationTokenRepository.save(verificationToken1);
                 throw new ExpiredTokenException();
             }else {
-                verificationTokenRepository.deleteByUser(user);
                 user.setActivated(true);
-                user.setVerificationTokens(new ArrayList<>());
                 userRepository.save(user);
+                verificationTokenRepository.deleteByUser(user);
                 System.out.println(user.getVerificationTokens().size());
+
                 return true;
             }
         }
@@ -114,28 +116,29 @@ public class UserService implements IUserService{
         return verificationToken;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public boolean verifyResetToken(String token) throws ExpiredTokenException {
         Optional<VerificationToken> verificationTokenOptional =
                 verificationTokenRepository.findByToken(token);
         if(verificationTokenOptional.isEmpty()) {
             return false;
         }
-        else{
+        else {
             VerificationToken verificationToken = verificationTokenOptional.get();
             User user = verificationToken.getUser();
-            if(verificationToken.getExpiredTime().before(new Timestamp(System.currentTimeMillis()))){
-                VerificationToken verificationToken1 = createResetToken(user);
+            if (verificationToken.getExpiredTime().before(new Timestamp(System.currentTimeMillis()))) {
+                VerificationToken verificationToken1 = createVerifiedToken(user);
                 emailService.sendVerifyToken(verificationToken1);
                 verificationTokenRepository.save(verificationToken1);
                 throw new ExpiredTokenException();
-            }else {
-                String password = EncryptionService.encryptPassword(UUID.randomUUID().toString());
-                System.out.println(password);
-                user.setPassword(password);
+            } else {
+                String password = UUID.randomUUID().toString();
+                user.setPassword(EncryptionService.encryptPassword(password));
                 userRepository.save(user);
                 verificationTokenRepository.deleteByUser(user);
+                emailService.sendResetPassword(password,user.getEmail());
+                System.out.println(user.getVerificationTokens().size());
                 return true;
             }
         }

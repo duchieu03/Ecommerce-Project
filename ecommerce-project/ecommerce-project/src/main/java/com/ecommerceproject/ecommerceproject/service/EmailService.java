@@ -30,7 +30,7 @@ public class EmailService {
         mailMessage.setTo(verificationToken.getUser().getEmail());
         mailMessage.setSubject("Verify your email to active your account");
         mailMessage.setText("Please follow the link below to verify your email to active your account.\n" +
-                url + "?token=" + verificationToken.getToken());
+                url + "signup/verify?token=" + verificationToken.getToken());
         try{
             javaMailSender.send(mailMessage);
         }catch (MailException ex){
@@ -43,7 +43,20 @@ public class EmailService {
         mailMessage.setTo(verificationToken.getUser().getEmail());
         mailMessage.setSubject("Verify your email to reset password of your account");
         mailMessage.setText("Please follow the link below to verify your email to reset password of your account.\n" +
-                url + "/reset?token=" + verificationToken.getToken());
+                url + "reset/verify?token=" + verificationToken.getToken());
+        try{
+            javaMailSender.send(mailMessage);
+        }
+        catch(MailException e){
+            throw new EmailFailException();
+        }
+    }
+
+    public void sendResetPassword(String password , String email) throws EmailFailException {
+        SimpleMailMessage mailMessage = generateMessage();
+        mailMessage.setTo(email);
+        mailMessage.setSubject("New password");
+        mailMessage.setText("You can use your new password to sign in: "+ password);
         try{
             javaMailSender.send(mailMessage);
         }

@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 20px;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <!-- Navbar content -->
       <!--    Logo-->
       <router-link class="navbar-brand" :to="{ name: 'home' }">
@@ -48,20 +48,67 @@
             </div>
           </div>
         </form>
-        <router-link :to="{ name: 'admin' }"> Admin </router-link>
+        <!-- dropdown for browse -->
+      <!-- dropdown for account -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarAccount"
+            data-toggle="dropdown"
+          >
+            Accounts
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarAccount">
+            <router-link
+              v-if="!token"
+              class="dropdown-item"
+              :to="{ name: 'register' }"
+              >Sign up
+            </router-link>
+            <router-link
+              v-if="!token"
+              class="dropdown-item"
+              :to="{ name: 'login' }"
+              >Sign in
+            </router-link>
+            <a class="dropdown-item" v-if="token" href="#" @click="signout"
+              >Sign out
+            </a>
+          </div>
+        </li>
+      </ul>
       </div>
     </nav>
   </template>
   <script>
   export default {
     name: "NavbarComponent",
+    data(){
+      return {
+        token :null
+      }
+    },
+    methods:{
+      signout(){
+        localStorage.removeItem("token");
+      }
+    },
+    mounted(){
+      this.token = localStorage.getItem("token")
+    }
   };
   </script>
   <style scoped>
-  a {
-    color: white;
-  }
-
+  #logo {
+  width: 150px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.nav-link {
+  color: rgba(255, 255, 255);
+}
   
 
   </style>
