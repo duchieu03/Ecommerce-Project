@@ -28,4 +28,7 @@ public class Product {
     @JsonIgnore
     @JoinColumn(name = "category_id")
     private Category category;
+    @JsonIgnore
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL,orphanRemoval = true)
+    private Stock stock;
 }
