@@ -39,4 +39,6 @@ public class User{
     @JsonIgnore
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,orphanRemoval = true)
     private List<VerificationToken> verificationTokens = new ArrayList<>();
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,orphanRemoval = true)
+    private List<Cart> carts = new ArrayList<>();
 }

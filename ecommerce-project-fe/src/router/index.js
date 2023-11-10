@@ -14,7 +14,7 @@ import VerifyEmail from '../views/authen/VerifyEmail.vue'
 import ResetPassword from '../views/authen/ResetPassword.vue'
 import VerifyResetPassword from '../views/authen/VerifyResetPassword.vue'
 import WishlistView from '../views/wishlist/WishlistView.vue'
-
+import CartView from '../views/cart/CartView.vue'
 const routes = [
   {
     path: '/',
@@ -100,6 +100,11 @@ const routes = [
     path: '/wishlist',
     name: 'wishlist',
     component: WishlistView
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: CartView
   }
 ]
 

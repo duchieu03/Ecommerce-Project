@@ -41,7 +41,7 @@
                     },
                 ).then(()=>{
                     swal({
-                        text:"Add successfully",
+                        text:"Remove successfully",
                         icon:"success"
                     })
                 }).catch((err)=>{
